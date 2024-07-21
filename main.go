@@ -2,7 +2,10 @@ package main
 
 import (
 	"auto-record/app/auto"
+	"auto-record/config"
 	"embed"
+	"fmt"
+	"os"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -12,12 +15,14 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
+var record *auto.AutoRecord
+
 func main() {
 	// Create an instance of the app structure
 	app := NewApp()
-	record := auto.NewAutoRecord()
+	appInit()
+
 	defer close(record.IsListen)
-	go record.Listen(record.IsListen)
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -37,5 +42,16 @@ func main() {
 
 	if err != nil {
 		println("Error:", err.Error())
+	}
+}
+
+func appInit() {
+	record = auto.NewAutoRecord()
+	go record.Listen(record.IsListen)
+
+	recordFile := config.Settings.FilePath.Record
+	fmt.Println(recordFile)
+	if err := os.Mkdir(recordFile, os.ModePerm); os.IsNotExist(err) {
+		panic(fmt.Errorf("create directory error %v", err))
 	}
 }

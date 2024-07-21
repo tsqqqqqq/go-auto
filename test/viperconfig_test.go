@@ -7,12 +7,11 @@ import (
 )
 
 func TestViperConfig(t *testing.T) {
-	settings, err := config.NewViperConfig()
-	if err != nil {
-		return
-	}
+	settings := config.Settings
 	application := settings.Application.Name
+	recordfile := settings.FilePath.Record
 	fmt.Println(application)
+	fmt.Println(recordfile)
 	if application != "go-auto" {
 		t.Errorf("unread APPLICATION")
 	}

@@ -62,7 +62,7 @@ func MouseEventFormat(text string) {
 		robotgo.Move(mObj.X, mObj.Y)
 	}
 	if mObj.Kind == MOUSEDOWN {
-		robotgo.MouseSleep = 100
+		robotgo.MouseSleep = 50
 		robotgo.Move(mObj.X, mObj.Y)
 		if mObj.Button == "1" {
 			robotgo.Click()

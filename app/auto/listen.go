@@ -1,9 +1,11 @@
 package auto
 
 import (
+	"auto-record/config"
 	"fmt"
 	hook "github.com/robotn/gohook"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -11,10 +13,10 @@ import (
 
 func (ar *AutoRecord) Listen(isListen chan bool) {
 	//var evChan event.Event
-	evChan := hook.Start()
-	defer hook.End()
+	//evChan := hook.Start()
+	//defer hook.End()
 	// 写文件
-	filename := "text.log"
+	filename := filepath.Join(config.Settings.FilePath.Record, "text.log")
 	f, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
 	if err != nil {
 		panic(err)
@@ -23,9 +25,11 @@ func (ar *AutoRecord) Listen(isListen chan bool) {
 
 	for check := range isListen {
 		if check {
+			evChan := hook.Start()
 			go eventOutput(evChan, f)
 		} else {
 			fmt.Println("stop listen")
+			hook.End()
 		}
 	}
 

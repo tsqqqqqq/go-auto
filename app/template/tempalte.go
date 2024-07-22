@@ -14,6 +14,8 @@ func NewTemplate() *Template {
 	return &Template{}
 }
 
+var CurrentTemplate *string
+
 func (t *Template) GetAll() []*Template {
 	settings := config.Settings
 	directory := settings.FilePath.Record
@@ -31,4 +33,8 @@ func (t *Template) GetAll() []*Template {
 		}
 	}
 	return ans
+}
+
+func (t *Template) ChangeCurrentTemplate(template string) {
+	CurrentTemplate = &template
 }

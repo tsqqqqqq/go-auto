@@ -1,18 +1,39 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import logo from './assets/images/logo-universal.png';
 import './App.css';
 import {Greet} from "../wailsjs/go/main/App";
-import {Button} from "antd";
+import {Button, Select} from "antd";
 import {OnListen, Run} from "../wailsjs/go/auto/AutoRecord";
+import {GetAll} from "../wailsjs/go/template/Template";
+import {template} from "../wailsjs/go/models";
+import Template = template.Template;
+
 
 function App() {
     const [resultText, setResultText] = useState("Please enter your name below 👇");
     const [name, setName] = useState('');
     const [listen, setListen] = useState(false)
 
+    const [templates, setTemplates] = useState<Array<Template>>([])
+    const [selectedTemplate, setSelectedTemplate] = useState('')
+    const templateFields = {
+        label: "Name",
+        value: "Name"
+    }
+
     const updateName = (e: any) => setName(e.target.value);
     const updateResultText = (result: string) => setResultText(result);
 
+    const initTemplates = () => {
+        GetAll().then((res) => {
+            console.log(res)
+            setTemplates(res)
+        })
+    }
+
+    useEffect(() => {
+        initTemplates()
+    }, [])
 
     function greet() {
         Greet(name).then(updateResultText);
@@ -32,9 +53,14 @@ function App() {
         })
     }
 
+    const handleTemplateChange = (value:string) => {
+        setSelectedTemplate(value)
+    }
+
     return (
         <div id="App">
             <img src={logo} id="logo" alt="logo"/>
+            <Select style={{ width: 120 }} onChange={handleTemplateChange} fieldNames={templateFields} options={templates}></Select>
             <div id="result" className="result">{resultText}</div>
             <div id="input" className="input-box">
                 <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>

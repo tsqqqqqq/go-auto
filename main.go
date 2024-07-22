@@ -2,6 +2,7 @@ package main
 
 import (
 	"auto-record/app/auto"
+	template2 "auto-record/app/template"
 	"auto-record/config"
 	"embed"
 	"fmt"
@@ -16,6 +17,7 @@ import (
 var assets embed.FS
 
 var record *auto.AutoRecord
+var template *template2.Template
 
 func main() {
 	// Create an instance of the app structure
@@ -37,6 +39,7 @@ func main() {
 		Bind: []interface{}{
 			app,
 			record,
+			template,
 		},
 	})
 
@@ -47,8 +50,9 @@ func main() {
 
 func appInit() {
 	record = auto.NewAutoRecord()
-	go record.Listen(record.IsListen)
+	template = template2.NewTemplate()
 
+	go record.Listen(record.IsListen)
 	recordFile := config.Settings.FilePath.Record
 	fmt.Println(recordFile)
 	if err := os.Mkdir(recordFile, os.ModePerm); os.IsNotExist(err) {

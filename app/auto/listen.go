@@ -1,6 +1,7 @@
 package auto
 
 import (
+	"auto-record/app/template"
 	"auto-record/config"
 	"fmt"
 	hook "github.com/robotn/gohook"
@@ -16,17 +17,10 @@ func (ar *AutoRecord) Listen(isListen chan bool) {
 	//evChan := hook.Start()
 	//defer hook.End()
 	// 写文件
-	filename := filepath.Join(config.Settings.FilePath.Record, "text.log")
-	f, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-
 	for check := range isListen {
 		if check {
 			evChan := hook.Start()
-			go eventOutput(evChan, f)
+			go eventOutput(evChan)
 		} else {
 			fmt.Println("stop listen")
 			hook.End()
@@ -35,8 +29,14 @@ func (ar *AutoRecord) Listen(isListen chan bool) {
 
 }
 
-func eventOutput(evChan chan hook.Event, f *os.File) {
+func eventOutput(evChan chan hook.Event) {
 	fmt.Println("start listen")
+	filename := filepath.Join(config.Settings.FilePath.Record, template.CurrentTemplate, "text.log")
+	f, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
 	var lastTime *time.Time
 	for ev := range evChan {
 		input := strings.ReplaceAll(ev.String(), ev.When.String(), "")

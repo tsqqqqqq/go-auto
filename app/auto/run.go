@@ -2,6 +2,7 @@ package auto
 
 import (
 	"auto-record/app/event"
+	"auto-record/app/template"
 	"auto-record/config"
 	"bufio"
 	"fmt"
@@ -12,7 +13,7 @@ import (
 
 func (ar *AutoRecord) Run() {
 	fmt.Println("Run")
-	filename := filepath.Join(config.Settings.FilePath.Record, "text.log")
+	filename := filepath.Join(config.Settings.FilePath.Record, template.CurrentTemplate, "text.log")
 	ioReader, err := os.Open(filename)
 	if err != nil {
 		panic(err)

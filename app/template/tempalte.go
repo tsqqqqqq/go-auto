@@ -14,7 +14,7 @@ func NewTemplate() *Template {
 	return &Template{}
 }
 
-var CurrentTemplate *string
+var CurrentTemplate string
 
 func (t *Template) GetAll() []*Template {
 	settings := config.Settings
@@ -36,5 +36,5 @@ func (t *Template) GetAll() []*Template {
 }
 
 func (t *Template) ChangeCurrentTemplate(template string) {
-	CurrentTemplate = &template
+	CurrentTemplate = template
 }

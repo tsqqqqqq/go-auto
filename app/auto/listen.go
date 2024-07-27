@@ -15,7 +15,7 @@ import (
 func (ar *AutoRecord) Listen(isListen chan bool) {
 	//var evChan event.Event
 	//evChan := hook.Start()
-	//defer hook.End()
+	defer hook.End()
 	// 写文件
 	for check := range isListen {
 		if check {
@@ -23,7 +23,7 @@ func (ar *AutoRecord) Listen(isListen chan bool) {
 			go eventOutput(evChan)
 		} else {
 			fmt.Println("stop listen")
-			hook.End()
+			//hook.End()
 		}
 	}
 

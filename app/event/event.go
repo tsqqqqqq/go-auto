@@ -36,7 +36,6 @@ func MouseEventFormat(text string) {
 	mObj := new(MouseMoveEvent)
 	if strings.Contains(input, MOUSEAWAIT) {
 		awaitMaps := make(map[string]string)
-		fmt.Println(input)
 		err := json.Unmarshal([]byte(input), &awaitMaps)
 		if err != nil {
 			fmt.Println("Error:", err)

@@ -2,12 +2,13 @@ import {useEffect, useState} from 'react';
 import logo from './assets/images/logo-universal.png';
 import './App.css';
 import {Greet} from "../wailsjs/go/main/App";
-import {Button, Form, Select} from "antd";
+import {Button, Flex, Form, Image, Layout, Select} from "antd";
 import {OnListen, Run} from "../wailsjs/go/auto/AutoRecord";
 import {ChangeCurrentTemplate, GetAll} from "../wailsjs/go/template/Template";
 import {template} from "../wailsjs/go/models";
 import Template = template.Template;
 import FormItem from "antd/es/form/FormItem";
+import {Content, Footer} from "antd/es/layout/layout";
 
 
 function App() {
@@ -60,30 +61,51 @@ function App() {
         })
     }
 
+    const layoutStyle = {
+        borderRadius: 8,
+        overflow: 'hidden',
+        width: 'calc(90% - 8px)',
+        maxWidth: 'calc(90% - 8px)',
+    };
+
+    const contentStyle: React.CSSProperties = {
+        textAlign: 'center',
+        minHeight: '50%',
+        color: '#fff',
+    };
+
+    const footerStyle: React.CSSProperties = {
+        textAlign: 'center',
+        color: '#fff',
+        // backgroundColor: '#4096ff',
+    };
+
     return (
-        <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
-            <div >
-                <Form
-
-                    style={{ maxWidth: 200 }}
-                    initialValues={{ remember: true }}
-                    autoComplete="off"
-                >
-                    <FormItem label={"Templates: "}>
-                        <Select onChange={handleTemplateChange} fieldNames={templateFields} options={templates}></Select>
-                    </FormItem>
-                </Form>
-            </div>
-
-            <div id="result" className="result">{resultText}</div>
-            <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
-                <Button className="btn" onClick={greet}>Greet</Button>
-                <Button className="btn" onClick={() => handleListen()}> {listen ? 'Stop': 'Listen'} </Button>
-                <Button className="btn" onClick={() => handleRun()}> Run </Button>
-            </div>
-        </div>
+            <Flex className='justify-center'>
+                <Layout style={layoutStyle} className='shadow-2xl h-full min-h-full mt-10'>
+                    <Content style={contentStyle} className=''>
+                        <img src={logo} id="logo" alt="logo"/>
+                    </Content>
+                    <Footer style={footerStyle}>
+                        <Form
+                            layout={"inline"}
+                            className={"w-full"}
+                            initialValues={{ remember: true }}
+                            autoComplete="off"
+                        >
+                            <FormItem label={"Templates: "} className={'w-1/2'}>
+                                <Select onChange={handleTemplateChange} fieldNames={templateFields} options={templates}></Select>
+                            </FormItem>
+                            <FormItem>
+                                <Button className="btn" onClick={() => handleListen()}> {listen ? 'Stop': 'Listen'} </Button>
+                            </FormItem>
+                            <FormItem>
+                                <Button className="btn" onClick={() => handleRun()}> Run </Button>
+                            </FormItem>
+                        </Form>
+                    </Footer>
+                </Layout>
+            </Flex>
     )
 }
 

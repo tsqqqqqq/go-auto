@@ -4,4 +4,6 @@ import {template} from '../models';
 
 export function ChangeCurrentTemplate(arg1:string):Promise<void>;
 
+export function CreateTemplate(arg1:string):Promise<boolean>;
+
 export function GetAll():Promise<Array<template.Template>>;

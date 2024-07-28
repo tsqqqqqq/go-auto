@@ -6,6 +6,10 @@ export function ChangeCurrentTemplate(arg1) {
   return window['go']['template']['Template']['ChangeCurrentTemplate'](arg1);
 }
 
+export function CreateTemplate(arg1) {
+  return window['go']['template']['Template']['CreateTemplate'](arg1);
+}
+
 export function GetAll() {
   return window['go']['template']['Template']['GetAll']();
 }

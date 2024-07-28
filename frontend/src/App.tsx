@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import logo from './assets/images/logo-universal.png';
 import './App.css';
 import {Greet} from "../wailsjs/go/main/App";
-import {Button, Flex, Form, Image, Layout, Select} from "antd";
+import {Button, Flex, Form, Image, Layout, Modal, Select} from "antd";
 import {OnListen, Run} from "../wailsjs/go/auto/AutoRecord";
 import {ChangeCurrentTemplate, GetAll} from "../wailsjs/go/template/Template";
 import {template} from "../wailsjs/go/models";
@@ -18,6 +18,9 @@ function App() {
 
     const [templates, setTemplates] = useState<Array<Template>>([])
     const [selectedTemplate, setSelectedTemplate] = useState('')
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
     const templateFields = {
         label: "Name",
         value: "Name"
@@ -61,6 +64,14 @@ function App() {
         })
     }
 
+    const handleOk = (form: Template) => {
+        console.log(form)
+    }
+
+    const handleCancel = () => {
+        setIsModalOpen(false)
+    }
+
     const layoutStyle = {
         borderRadius: 8,
         overflow: 'hidden',
@@ -81,6 +92,7 @@ function App() {
     };
 
     return (
+        <>
             <Flex className='justify-center'>
                 <Layout style={layoutStyle} className='shadow-2xl h-full min-h-full mt-10'>
                     <Content style={contentStyle} className=''>
@@ -102,10 +114,30 @@ function App() {
                             <FormItem>
                                 <Button className="btn" onClick={() => handleRun()}> Run </Button>
                             </FormItem>
+                            <FormItem>
+                                <Button > New </Button>
+                            </FormItem>
                         </Form>
                     </Footer>
                 </Layout>
             </Flex>
+            <TemplateConfigModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}/>
+        </>
+
+    )
+}
+
+// @ts-ignore
+const TemplateConfigModal = ({isModalOpen, handleOk, handleCancel}) => {
+    const [form, setForm] = useState<Template>()
+    return (
+        <>
+            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
+        </>
     )
 }
 

@@ -23,8 +23,8 @@ func (ar *AutoRecord) Run() {
 		if strings.Contains(scanner.Text(), "HookEnabled") {
 			continue
 		}
-		event.MouseEventFormat(scanner.Text())
-		event.KeyboardEventFormat(scanner.Text())
+		go event.MouseEventFormat(scanner.Text())
+		go event.KeyboardEventFormat(scanner.Text())
 	}
 
 }

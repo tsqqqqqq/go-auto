@@ -56,6 +56,7 @@ func MouseEventFormat(text string) {
 			panic(err)
 		}
 	}
+	// TODO 这里鼠标移动的太慢了 尝试一下能不能改成goroutine去调度
 	if mObj.Kind == MOUSEMOVE {
 		robotgo.MouseSleep = 50 // 100 millisecond
 		robotgo.Move(mObj.X, mObj.Y)

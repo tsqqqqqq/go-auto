@@ -2,14 +2,17 @@ import {useEffect, useState} from 'react';
 import logo from './assets/images/logo-universal.png';
 import './App.css';
 import {Greet} from "../wailsjs/go/main/App";
-import {Button, Flex, Form, Image, Layout, Modal, Select} from "antd";
+import {Button, Flex, Form, Image, Input, Layout, Modal, notification, Select} from "antd";
 import {OnListen, Run} from "../wailsjs/go/auto/AutoRecord";
-import {ChangeCurrentTemplate, GetAll} from "../wailsjs/go/template/Template";
+import {ChangeCurrentTemplate, GetAll, CreateTemplate} from "../wailsjs/go/template/Template";
 import {template} from "../wailsjs/go/models";
 import Template = template.Template;
 import FormItem from "antd/es/form/FormItem";
 import {Content, Footer} from "antd/es/layout/layout";
 
+
+
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 function App() {
     const [resultText, setResultText] = useState("Please enter your name below 👇");
@@ -20,6 +23,16 @@ function App() {
     const [selectedTemplate, setSelectedTemplate] = useState('')
 
     const [isModalOpen, setIsModalOpen] = useState(false)
+
+
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotificationWithIcon = (type: NotificationType, title: string, text: string) => {
+        api[type]({
+            message: title,
+            description: text
+        });
+    };
 
     const templateFields = {
         label: "Name",
@@ -40,9 +53,9 @@ function App() {
         initTemplates()
     }, [])
 
-    function greet() {
-        Greet(name).then(updateResultText);
-    }
+    useEffect(() => {
+        initTemplates()
+    }, [isModalOpen]);
 
     // 不传递的时候默认为isListen的相反数, 当重播的时候会发送停止监听的信号
     const handleListen = (isListen: boolean = !listen) => {
@@ -64,14 +77,6 @@ function App() {
         })
     }
 
-    const handleOk = (form: Template) => {
-        console.log(form)
-    }
-
-    const handleCancel = () => {
-        setIsModalOpen(false)
-    }
-
     const layoutStyle = {
         borderRadius: 8,
         overflow: 'hidden',
@@ -91,8 +96,11 @@ function App() {
         // backgroundColor: '#4096ff',
     };
 
+
+
     return (
         <>
+            {contextHolder}
             <Flex className='justify-center'>
                 <Layout style={layoutStyle} className='shadow-2xl h-full min-h-full mt-10'>
                     <Content style={contentStyle} className=''>
@@ -115,27 +123,53 @@ function App() {
                                 <Button className="btn" onClick={() => handleRun()}> Run </Button>
                             </FormItem>
                             <FormItem>
-                                <Button > New </Button>
+                                <Button onClick={() => setIsModalOpen(!isModalOpen)}> New </Button>
                             </FormItem>
                         </Form>
                     </Footer>
                 </Layout>
             </Flex>
-            <TemplateConfigModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}/>
+            <TemplateConfigModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} openNotificationWithIcon={openNotificationWithIcon}/>
         </>
 
     )
 }
 
 // @ts-ignore
-const TemplateConfigModal = ({isModalOpen, handleOk, handleCancel}) => {
-    const [form, setForm] = useState<Template>()
+const TemplateConfigModal = ({isModalOpen, setIsModalOpen, openNotificationWithIcon}) => {
+    const [form] = Form.useForm<Template>()
+
+    const handleOK = () => {
+        const data = form.getFieldsValue()
+        // @ts-ignore
+        CreateTemplate(data.name).then((res) => {
+            if (res) {
+                openNotificationWithIcon('success', 'Create Template success', '')
+                setIsModalOpen(false)
+            } else {
+                console.log(res)
+            }
+
+        }).catch((err) => {
+            openNotificationWithIcon('error', 'Create Template Fail', err)
+        })
+    }
+
+    const handleCancel = () => {
+        setIsModalOpen(false)
+    }
+
     return (
         <>
-            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+            <Modal  title={"Configuration Template"} open={isModalOpen} onOk={handleOK} onCancel={handleCancel}>
+                <Form
+
+                    form={form}
+                >
+                    <FormItem name="name" label={'Name'}>
+                        <Input />
+                    </FormItem>
+                </Form>
             </Modal>
         </>
     )

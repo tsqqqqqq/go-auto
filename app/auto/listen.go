@@ -15,15 +15,13 @@ import (
 func (ar *AutoRecord) Listen(isListen chan bool) {
 	//var evChan event.Event
 	//evChan := hook.Start()
-	defer hook.End()
-	// 写文件
 	for check := range isListen {
 		if check {
 			evChan := hook.Start()
 			go eventOutput(evChan)
 		} else {
 			fmt.Println("stop listen")
-			//hook.End()
+			hook.End()
 		}
 	}
 
@@ -40,6 +38,7 @@ func eventOutput(evChan chan hook.Event) {
 	var lastTime *time.Time
 	for ev := range evChan {
 		input := strings.ReplaceAll(ev.String(), ev.When.String(), "")
+		fmt.Println(input)
 		input = fmt.Sprintf("[%v] %v \r\n", ev.When, input)
 		if lastTime == nil {
 			lastTime = TimeFormat(input)

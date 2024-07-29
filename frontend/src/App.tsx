@@ -65,7 +65,10 @@ function App() {
     }
 
     const handleRun = () => {
-        handleListen(false)
+        //如果这个时候还在录制则停止，否则直接执行
+        if (listen) {
+            handleListen(false)
+        }
         Run().then(() => {
 
         })

@@ -23,6 +23,7 @@ func (ar *AutoRecord) Run() {
 		if strings.Contains(scanner.Text(), "HookEnabled") {
 			continue
 		}
+		// FIXME 这里的协程在for循环里面启动的太多了，会导致系统卡顿。测试行数多的时候。应该设置一个锁或者协程group。限制协程的数量。
 		go event.MouseEventFormat(scanner.Text())
 		go event.KeyboardEventFormat(scanner.Text())
 	}

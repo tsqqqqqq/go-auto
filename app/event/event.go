@@ -30,8 +30,7 @@ const (
 	MOUSEAWAIT = "Await"
 )
 
-// MouseEventFormat 将监听到的日志 格式化写到一个文件中
-func MouseEventFormat(text string) {
+func NewMouseMoveEvent(text string) *MouseMoveEvent {
 	input := strings.Split(text, "- Event: ")[1]
 	mObj := new(MouseMoveEvent)
 	if strings.Contains(input, MOUSEAWAIT) {
@@ -56,28 +55,78 @@ func MouseEventFormat(text string) {
 			panic(err)
 		}
 	}
-	// todo 这里的if else 太丑了 ， 搞个设计模式优化这里的代码
-	if mObj.Kind == MOUSEMOVE {
-		robotgo.MouseSleep = 100 // 100 millisecond
-		robotgo.Move(mObj.X, mObj.Y)
+	return mObj
+}
+
+func NewKeyboardEvent(text string) *KeyboardEvent {
+	input := strings.Split(text, "- Event: ")[1]
+	kObj := new(KeyboardEvent)
+	re := regexp.MustCompile(`(\b\w+\b): (\w+)`)
+	result := re.ReplaceAllString(input, `"$1": "$2"`)
+	err := json.Unmarshal([]byte(result), kObj)
+	if err != nil {
+		panic(err)
 	}
-	if mObj.Kind == MOUSEDOWN {
-		robotgo.MouseSleep = 50
-		robotgo.Move(mObj.X, mObj.Y)
-		if mObj.Button == "1" {
+	return kObj
+}
+
+// MouseEventFormat 将监听到的日志 格式化写到一个文件中
+func MouseEventFormat(mouseChan chan *MouseMoveEvent) {
+
+	for mouse := range mouseChan {
+		// todo 这里的if else 太丑了 ， 搞个设计模式优化这里的代码
+		if mouse.Kind == MOUSEMOVE {
+			robotgo.MouseSleep = 1 // 100 millisecond
+			robotgo.Move(mouse.X, mouse.Y)
+		}
+		if mouse.Kind == MOUSEDOWN {
+			robotgo.MouseSleep = 5
+			robotgo.Move(mouse.X, mouse.Y)
+			if mouse.Button == "1" {
+				robotgo.Click()
+			} else if mouse.Button == "2" {
+				robotgo.Click("right")
+			}
+		}
+		if mouse.Kind == MOUSEAWAIT {
+			robotgo.MouseSleep = 5
+			time.Sleep(mouse.Sleep)
+		}
+		if mouse.Kind == MOUSEWHEEL {
+			robotgo.MouseSleep = 5
+			robotgo.ScrollDir(int(math.Abs(float64(mouse.Rotation))), getDir(mouse.Rotation))
+		}
+	}
+
+}
+
+func (mouse *MouseMoveEvent) MouseEventFormat() {
+	//
+	//for mouse := range mouseChan {
+	// todo 这里的if else 太丑了 ， 搞个设计模式优化这里的代码
+	if mouse.Kind == MOUSEMOVE {
+		robotgo.MouseSleep = 1 // 100 millisecond
+		robotgo.Move(mouse.X, mouse.Y)
+	}
+	if mouse.Kind == MOUSEDOWN {
+		robotgo.MouseSleep = 5
+		robotgo.Move(mouse.X, mouse.Y)
+		if mouse.Button == "1" {
 			robotgo.Click()
-		} else if mObj.Button == "2" {
+		} else if mouse.Button == "2" {
 			robotgo.Click("right")
 		}
 	}
-	if mObj.Kind == MOUSEAWAIT {
-		robotgo.MouseSleep = 50
-		time.Sleep(mObj.Sleep)
+	if mouse.Kind == MOUSEAWAIT {
+		robotgo.MouseSleep = 5
+		time.Sleep(mouse.Sleep)
 	}
-	if mObj.Kind == MOUSEWHEEL {
-		robotgo.MouseSleep = 50
-		robotgo.ScrollDir(int(math.Abs(float64(mObj.Rotation))), getDir(mObj.Rotation))
+	if mouse.Kind == MOUSEWHEEL {
+		robotgo.MouseSleep = 5
+		robotgo.ScrollDir(int(math.Abs(float64(mouse.Rotation))), getDir(mouse.Rotation))
 	}
+	//}
+
 }
 
 func getDir(rotation uint) string {
@@ -100,18 +149,13 @@ const (
 	KEYUP   = "KeyUp"
 )
 
-func KeyboardEventFormat(text string) {
-	input := strings.Split(text, "- Event: ")[1]
-	kObj := new(KeyboardEvent)
-	re := regexp.MustCompile(`(\b\w+\b): (\w+)`)
-	result := re.ReplaceAllString(input, `"$1": "$2"`)
-	err := json.Unmarshal([]byte(result), kObj)
-	if err != nil {
-		panic(err)
-	}
-	robotgo.KeySleep = 50
-	err = robotgo.KeyDown(hook.RawcodetoKeychar(kObj.RawCode))
-	if err != nil {
-		panic(err)
+func KeyboardEventFormat(keyboardChan chan *KeyboardEvent) {
+	for keyboard := range keyboardChan {
+		// FIXME 键盘按键操作还有bug 需要修复
+		robotgo.KeySleep = 50
+		err := robotgo.KeyDown(hook.RawcodetoKeychar(keyboard.RawCode))
+		if err != nil {
+			panic(err)
+		}
 	}
 }

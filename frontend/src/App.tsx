@@ -20,7 +20,7 @@ function App() {
     const [listen, setListen] = useState(false)
 
     const [templates, setTemplates] = useState<Array<Template>>([])
-    const [selectedTemplate, setSelectedTemplate] = useState('')
+    const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null)
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -68,6 +68,10 @@ function App() {
         //如果这个时候还在录制则停止，否则直接执行
         if (listen) {
             handleListen(false)
+        }
+        if (!selectedTemplate) {
+            openNotificationWithIcon('error', 'please select template', '')
+            return
         }
         Run().then(() => {
 

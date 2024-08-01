@@ -3,3 +3,4 @@ node_modules
 frontend/dist
 app.yaml
 record-files
+build

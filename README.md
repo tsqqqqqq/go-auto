@@ -30,3 +30,5 @@
    > 打开cmd / powershell, 输入gcc -v 当看到类似以下的输出时则证明安装成功.
    
    ![gcc-cmd](docs/images/gcc-cmd.png)
+
+## NSIS

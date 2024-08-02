@@ -2,6 +2,7 @@ package template
 
 import (
 	"auto-record/config"
+	"auto-record/utils"
 	"errors"
 	"fmt"
 	"os"
@@ -43,11 +44,15 @@ func (t *Template) ChangeCurrentTemplate(template string) {
 
 func (t *Template) CreateTemplate(name string) (bool, error) {
 	settings := config.Settings
-	directory := settings.FilePath.Record
+	rootPath, err := utils.Rootname()
+	if err != nil {
+		return false, err
+	}
+	directory := path.Join(rootPath, settings.FilePath.Record)
 
 	filePath := path.Join(directory, name)
 	// if err == nil , then file / explorer is already existed
-	_, err := os.Stat(filePath)
+	_, err = os.Stat(filePath)
 	if err == nil {
 		return false, errors.New(fmt.Sprintf("template is exist, please check file / dir %s is already", filePath))
 	}

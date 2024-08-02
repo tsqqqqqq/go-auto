@@ -7,6 +7,7 @@ require (
 	github.com/robotn/gohook v0.41.0
 	github.com/spf13/viper v1.19.0
 	github.com/wailsapp/wails/v2 v2.9.1
+	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (

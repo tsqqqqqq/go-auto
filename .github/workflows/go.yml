@@ -6,7 +6,7 @@ name: Windows build
 on:
   push:
     branches:
-      - release/*
+      - releases/*
 
 jobs:
 

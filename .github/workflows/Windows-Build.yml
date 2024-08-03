@@ -10,8 +10,7 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
-
-  build:
+  create-release:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,13 +30,29 @@ jobs:
           draft: false
           prerelease: false
 
+  setup-go:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.22'
 
+  setup-wails:
+    runs-on: windows-latest
+    needs: setup-go
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Set up wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+  setup-nsis:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Set up nsis
         run: |
@@ -50,15 +65,27 @@ jobs:
       - name: Print NSIS compile flags
         run: makensis -HDRINFO
 
+  build:
+    runs-on: windows-latest
+    needs: [setup-go, setup-wails, setup-nsis]
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Build
         run: wails build -nsis
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  upload-release:
+    runs-on: windows-latest
+    needs: [create-release, build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/bin/auto-record-amd64-installer.exe
-          asset_name: auto-record-amd64-installer.exe
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./build/bin/auto-record-amd64-installer.exe
+          asset_name: auto-record-amd64-installer
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "This is my release text"

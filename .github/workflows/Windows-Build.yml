@@ -66,10 +66,12 @@ jobs:
       - name: Set up wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
 
-      - name: Build
+      - name: cd
         run: |
           cd ${{ github.workspace }}
-          wails build -nsis
+
+      - name: build
+        run: wails build -nsis
 
   upload-release:
     runs-on: windows-latest

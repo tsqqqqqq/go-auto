@@ -10,63 +10,53 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
-  name: Windows build
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
 
-  on:
-    push:
-      # Sequence of patterns matched against refs/tags
-      tags:
-        - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
 
-  jobs:
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
 
-    build:
-      runs-on: windows-latest
-      steps:
-        - uses: actions/checkout@v4
+      - name: Set up wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
 
-        - name: Create Release
-          id: create_release
-          uses: actions/create-release@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-          with:
-            tag_name: ${{ github.ref }}
-            release_name: Release ${{ github.ref }}
-            body: |
-              Changes in this Release
-              - First Change
-              - Second Change
-            draft: false
-            prerelease: false
+      - name: Set up nsis
+        run: |
+          iwr -useb get.scoop.sh -outfile 'install.ps1'
+          .\install.ps1 -RunAsAdmin
+          scoop update
+          scoop bucket add extras
+          scoop install nsis
+      - name: Print NSIS compile flags
+        run: makensis -HDRINFO
 
-        - name: Set up Go
-          uses: actions/setup-go@v4
-          with:
-            go-version: '1.22'
+      - name: Build
+        run: wails build -nsis
 
-        - name: Set up wails
-          run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
-
-        - name: Set up nsis
-          run: |
-            iwr -useb get.scoop.sh -outfile 'install.ps1'
-            .\install.ps1 -RunAsAdmin
-            scoop update
-            scoop bucket add extras
-            scoop install nsis
-        - name: Print NSIS compile flags
-          run: makensis -HDRINFO
-
-        - name: Build
-          run: wails build -nsis
-
-        - name: Upload binaries to release
-          uses: svenstaro/upload-release-action@v2
-          with:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ./build/bin/auto-record-amd64-installer.exe
-            asset_name: auto-record-amd64-installer
-            tag: ${{ github.ref }}
-            overwrite: true
-            body: "This is my release text"
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./build/bin/auto-record-amd64-installer.exe
+          asset_name: auto-record-amd64-installer
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "This is my release text"

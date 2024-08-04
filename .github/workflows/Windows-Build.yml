@@ -49,14 +49,14 @@ jobs:
         run: makensis -HDRINFO
 
       - name: Build
-        run: wails build -nsis
+        run: wails build --debug --nsis
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./build/bin/auto-record-amd64-installer.exe
-          asset_name: auto-record-amd64-installer
+          asset_name: auto-record-amd64-installer.exe
           tag: ${{ github.ref }}
           overwrite: true
           body: "This is my release text"

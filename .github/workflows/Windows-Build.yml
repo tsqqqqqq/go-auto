@@ -68,7 +68,7 @@ jobs:
 
       - name: Build
         run: |
-          cd /d ${{ github.workspace }}
+          cd ${{ github.workspace }}
           wails build -nsis
 
   upload-release:

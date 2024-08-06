@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v2"
-	"log"
 	"os"
 	"path/filepath"
 )
@@ -26,11 +25,6 @@ var Settings *Configs
 
 // init 函数在程序运行时只执行一次，
 func init() {
-	WorkPath, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	log.Printf("%s \n", WorkPath)
 	InitConfig()
 	Settings = NewViperConfig()
 }
@@ -57,9 +51,10 @@ func NewViperConfig() *Configs {
 	return configs
 }
 
+// appFileIsExist 根据执行目录的不同，通过github actions 打包成exe的时候
+// 先判断当前项目根目录是否存在。
+// 不存在则直接用exe的执行目录 os.Getwd()
 func appFileIsExist() (string, error) {
-	//app_file := path.Join()
-	// fixme: 在github打包成安装包之后，执行的根目录是github actions 虚拟机的目录，  D:\a\go-auto\go-auto\
 	rootPath, err := utils.Rootname()
 	if err != nil {
 		return "", err
@@ -70,7 +65,6 @@ func appFileIsExist() (string, error) {
 		}
 	}
 	appFile := filepath.Join(rootPath, DefaultFileName)
-	log.Println("----------------->" + appFile)
 	if _, err := os.Stat(appFile); err != nil {
 		if os.IsNotExist(err) {
 			return appFile, err

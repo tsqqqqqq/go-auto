@@ -49,7 +49,8 @@ jobs:
         run: makensis -HDRINFO
 
       - name: Build
-        run: wails build --debug --nsis
+        # todo wails build {} --nsis 后面改成动态的，根据tag中的标识来决定打什么版本的包
+        run: wails build --nsis
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2

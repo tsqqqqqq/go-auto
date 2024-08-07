@@ -13,32 +13,31 @@
 ## Required
 
 1. 安装gcc环境
-   > 安装 llvm-mingw https://github.com/mstorsjo/llvm-mingw/releases/tag/20240619
-   
-   或者
-    
-   > 安装 mingw-w64 https://www.mingw-w64.org/
-   
+   安装 [llvm-mingw](https://github.com/mstorsjo/llvm-mingw/releases/tag/20240619) 或者 [mingw-w64](https://www.mingw-w64.org/)
+      
    1.1 配置环境变量
-   > 获取llvm-mingw / mingw-w64 安装路径,配置到环境变量Path中。
-   > 
-   > example: C://User/llvm-mingw/bin
-   
+   获取llvm-mingw / mingw-w64 安装路径,配置到环境变量Path中。
+      > example: C://User/llvm-mingw/bin
+      
    1.2 验证是否安装成功
-   > 打开cmd / powershell, 输入gcc -v 当看到类似以下的输出时则证明安装成功.
-
-   ```shell
-   gcc -v
-```
-
-   ![gcc-cmd](docs/images/gcc-cmd.png)
-2. 安装Golang.
-   > 可以直接参考官网的安装方式, 这里就不赘述了
-   https://go.dev/dl/
+      > 打开cmd / powershell, 输入gcc -v 当看到类似以下的输出时则证明安装成功.
    
-   2.1 验证golang是否安装成功
+      ```shell
+        gcc -v
+      ```
+   ![gcc-cmd](docs/images/gcc-cmd.png)
+
+2. 安装Golang. 
+可以直接参考官网的安装方式, 这里就不赘述了
+   > https://go.dev/dl/
+   
+2.1 验证golang是否安装成功
    > 打开cmd / powershell, 输入go version， 当看到以下输出时，既证明安装成功。
    
+```shell
+go version
+```
+
    ![go-cmd](docs/images/go-cmd.png)
    
 3. 安装Wails

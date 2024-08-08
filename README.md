@@ -41,7 +41,7 @@
    ```
    ![wails-cmd](docs/images/wails-cmd.png)   
 
-## 运行项目
+## Run
    当你把上述必要步骤都配置好之后, 克隆当前仓库到本地中
    ```shell
       git clone https://github.com/tsqqqqqq/go-auto.git
@@ -52,11 +52,11 @@
       wails dev
    ```
 
-## 构建项目
+## Build
    可以在项目的根目录中使用wails的打包命令来编译、打包项目.
-
+   使用以下命令, 会在项目的根目录中生成一个**build**文件夹,该文件夹用于存放构建后的可执行文件, 具体在**build/bin**目录中
    ```shell
-      # 面安装包
+      # 免安装包
       wails build 
       # 使用nsis作为安装启动器
       wails build --nsis

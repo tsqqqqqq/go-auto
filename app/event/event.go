@@ -152,6 +152,7 @@ const (
 func KeyboardEventFormat(keyboardChan chan *KeyboardEvent) {
 	for keyboard := range keyboardChan {
 		// FIXME 键盘按键操作还有bug 需要修复
+
 		robotgo.KeySleep = 50
 		err := robotgo.KeyDown(hook.RawcodetoKeychar(keyboard.RawCode))
 		if err != nil {

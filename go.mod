@@ -7,6 +7,7 @@ require (
 	github.com/robotn/gohook v0.41.0
 	github.com/spf13/viper v1.19.0
 	github.com/wailsapp/wails/v2 v2.9.1
+	golang.org/x/text v0.17.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -70,7 +71,6 @@ require (
 	golang.org/x/image v0.12.0 // indirect
 	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
-	golang.org/x/text v0.15.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

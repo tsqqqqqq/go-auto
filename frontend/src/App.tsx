@@ -1,14 +1,16 @@
 import {useEffect, useState} from 'react';
 import logo from './assets/images/logo-universal.png';
 import './App.css';
-import {Greet} from "../wailsjs/go/main/App";
 import {Button, Flex, Form, Image, Input, Layout, Modal, notification, Select} from "antd";
 import {OnListen, Run} from "../wailsjs/go/auto/AutoRecord";
 import {ChangeCurrentTemplate, GetAll, CreateTemplate} from "../wailsjs/go/template/Template";
-import {template} from "../wailsjs/go/models";
-import Template = template.Template;
+import {template, window as win} from "../wailsjs/go/models";
+
 import FormItem from "antd/es/form/FormItem";
 import {Content, Footer} from "antd/es/layout/layout";
+import Template = template.Template;
+import Window = win.Window
+import {GetWindows} from "../wailsjs/go/window/Window";
 
 
 
@@ -21,6 +23,9 @@ function App() {
 
     const [templates, setTemplates] = useState<Array<Template>>([])
     const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null)
+
+    const [windows, setWindows] = useState<Array<Window>>([])
+    const [selectWindow, setSelectWindow] = useState<string | null>(null)
 
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -39,8 +44,20 @@ function App() {
         value: "Name"
     }
 
+    const windowFields = {
+        label: "Title",
+        value: "Pid"
+    }
+
     const updateName = (e: any) => setName(e.target.value);
     const updateResultText = (result: string) => setResultText(result);
+
+    const initWindows = () => {
+        GetWindows().then((res) => {
+            console.log(res)
+            setWindows(res)
+        })
+    }
 
     const initTemplates = () => {
         GetAll().then((res) => {
@@ -50,6 +67,7 @@ function App() {
     }
 
     useEffect(() => {
+        initWindows()
         initTemplates()
     }, [])
 
@@ -82,6 +100,10 @@ function App() {
         ChangeCurrentTemplate(value).then(() => {
             setSelectedTemplate(value)
         })
+    }
+
+    const handleWindowChange = (value:string) => {
+        console.log(value)
     }
 
     const layoutStyle = {
@@ -120,6 +142,9 @@ function App() {
                             initialValues={{ remember: true }}
                             autoComplete="off"
                         >
+                            <FormItem label={"Window: "} className={'w-1/2'}>
+                                <Select onChange={handleWindowChange} fieldNames={windowFields} options={windows}></Select>
+                            </FormItem>
                             <FormItem label={"Templates: "} className={'w-1/2'}>
                                 <Select onChange={handleTemplateChange} fieldNames={templateFields} options={templates}></Select>
                             </FormItem>

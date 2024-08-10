@@ -54,14 +54,12 @@ function App() {
 
     const initWindows = () => {
         GetWindows().then((res) => {
-            console.log(res)
             setWindows(res)
         })
     }
 
     const initTemplates = () => {
         GetAll().then((res) => {
-            console.log(res)
             setTemplates(res)
         })
     }

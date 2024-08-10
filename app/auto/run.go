@@ -6,9 +6,11 @@ import (
 	"auto-record/config"
 	"bufio"
 	"fmt"
+	"github.com/go-vgo/robotgo"
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 func (ar *AutoRecord) Run() {
@@ -25,7 +27,7 @@ func (ar *AutoRecord) Run() {
 	// 方案1 用管道管理Text(). 分别启动两个协程，根据管道传递的类型执行不同的协程
 	// OPTIMIZE 2024-07-30 使用协程的单向通道， 定义键盘和鼠标的channel消费者，在使用写入协程单向对channel写入，但感觉鼠标移动还是不够流畅，待测试。
 	mouseChan := make(chan *event.MouseMoveEvent, 5)
-	keyboardChan := make(chan *event.KeyboardEvent, 5)
+	keyboardChan := make(chan *event.KeyboardEvent, 3)
 
 	go event.MouseEventFormat(mouseChan)
 	go event.KeyboardEventFormat(keyboardChan)
@@ -34,8 +36,13 @@ func (ar *AutoRecord) Run() {
 		for scanner.Scan() {
 			line := scanner.Text()
 			if strings.Contains(line, "Mouse") {
+				robotgo.MouseSleep = 10
 				mouseChan <- event.NewMouseMoveEvent(line)
-			} else {
+			}
+			if strings.Contains(line, "Await") {
+				time.Sleep(event.NewMouseMoveEvent(line).Sleep)
+			}
+			if strings.Contains(line, "Key") {
 				keyboardChan <- event.NewKeyboardEvent(line)
 			}
 		}

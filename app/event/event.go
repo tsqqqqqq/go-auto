@@ -76,11 +76,10 @@ func MouseEventFormat(mouseChan chan *MouseMoveEvent) {
 	for mouse := range mouseChan {
 		// todo 这里的if else 太丑了 ， 搞个设计模式优化这里的代码
 		if mouse.Kind == MOUSEMOVE {
-			robotgo.MouseSleep = 1 // 100 millisecond
-			robotgo.Move(mouse.X, mouse.Y)
+			//robotgo.MouseSleep = 1 // 100 millisecond
+			robotgo.MoveSmooth(mouse.X, mouse.Y, 0.01, 0.03, 1)
 		}
 		if mouse.Kind == MOUSEDOWN {
-			robotgo.MouseSleep = 5
 			robotgo.Move(mouse.X, mouse.Y)
 			if mouse.Button == "1" {
 				robotgo.Click()
@@ -88,12 +87,7 @@ func MouseEventFormat(mouseChan chan *MouseMoveEvent) {
 				robotgo.Click("right")
 			}
 		}
-		if mouse.Kind == MOUSEAWAIT {
-			robotgo.MouseSleep = 5
-			time.Sleep(mouse.Sleep)
-		}
 		if mouse.Kind == MOUSEWHEEL {
-			robotgo.MouseSleep = 5
 			robotgo.ScrollDir(int(math.Abs(float64(mouse.Rotation))), getDir(mouse.Rotation))
 		}
 	}
@@ -147,16 +141,27 @@ type KeyboardEvent struct {
 const (
 	KEYDOWN = "KeyDown"
 	KEYUP   = "KeyUp"
+	KEYHOLD = "KeyHold"
 )
 
 func KeyboardEventFormat(keyboardChan chan *KeyboardEvent) {
 	for keyboard := range keyboardChan {
 		// FIXME 键盘按键操作还有bug 需要修复
-
-		robotgo.KeySleep = 50
-		err := robotgo.KeyDown(hook.RawcodetoKeychar(keyboard.RawCode))
-		if err != nil {
-			panic(err)
+		if keyboard.Kind == KEYHOLD {
+			err := robotgo.KeyDown(hook.RawcodetoKeychar(keyboard.RawCode))
+			if err != nil {
+				panic(err)
+			}
+			err = robotgo.KeyUp(hook.RawcodetoKeychar(keyboard.RawCode))
+			if err != nil {
+				panic(err)
+			}
 		}
+
+		//fmt.Println(hook.RawcodetoKeychar(keyboard.RawCode))
+		//err := robotgo.KeyDown(hook.RawcodetoKeychar(keyboard.RawCode))
+		//if err != nil {
+		//	panic(err)
+		//}
 	}
 }

@@ -117,12 +117,6 @@ function App() {
         color: '#fff',
     };
 
-    const footerStyle: React.CSSProperties = {
-        textAlign: 'center',
-        color: '#fff',
-        // backgroundColor: '#4096ff',
-    };
-
 
 
     return (
@@ -132,30 +126,28 @@ function App() {
                 <Layout style={layoutStyle} className='shadow-2xl h-full min-h-full mt-10'>
                     <Content style={contentStyle} className=''>
                         <img src={logo} id="logo" alt="logo"/>
+
                     </Content>
-                    <Footer style={footerStyle}>
-                        <Form
-                            layout={"inline"}
-                            className={"w-full"}
-                            initialValues={{ remember: true }}
-                            autoComplete="off"
-                        >
-                            <FormItem label={"Window: "} className={'w-1/2'}>
-                                <Select onChange={handleWindowChange} fieldNames={windowFields} options={windows}></Select>
-                            </FormItem>
-                            <FormItem label={"Templates: "} className={'w-1/2'}>
-                                <Select onChange={handleTemplateChange} fieldNames={templateFields} options={templates}></Select>
-                            </FormItem>
-                            <FormItem>
-                                <Button className="btn" onClick={() => handleListen()}> {listen ? 'Stop': 'Listen'} </Button>
-                            </FormItem>
-                            <FormItem>
-                                <Button className="btn" onClick={() => handleRun()}> Run </Button>
-                            </FormItem>
-                            <FormItem>
-                                <Button onClick={() => setIsModalOpen(!isModalOpen)}> New </Button>
-                            </FormItem>
-                        </Form>
+                    <Footer className={"w-full"}>
+                            <Form
+                                layout={"horizontal"}
+                                labelAlign={"left"}
+                                initialValues={{ remember: true }}
+                                autoComplete="off"
+                            >
+                                <FormItem label={"Window: "} className={'w-1/2 m-auto'}>
+                                    <Select onChange={handleWindowChange} fieldNames={windowFields} options={windows}></Select>
+                                </FormItem>
+                                <FormItem label={"Templates: "} className={'w-1/2 m-auto'}>
+                                    <Select onChange={handleTemplateChange} fieldNames={templateFields} options={templates}></Select>
+                                </FormItem>
+                                <FormItem layout={"horizontal"}>
+                                    <Button className="btn" onClick={() => handleListen()}> {listen ? 'Stop': 'Listen'} </Button>
+                                    <Button className="btn" onClick={() => handleRun()}> Run </Button>
+                                    <Button onClick={() => setIsModalOpen(!isModalOpen)}> New </Button>
+                                </FormItem>
+                            </Form>
+
                     </Footer>
                 </Layout>
             </Flex>

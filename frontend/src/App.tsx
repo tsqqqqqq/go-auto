@@ -131,20 +131,25 @@ function App() {
                     <Footer className={"w-full"}>
                             <Form
                                 layout={"horizontal"}
-                                labelAlign={"left"}
+                                labelCol={{ span: 8 }}
+                                wrapperCol={{ span: 24 }}
+                                labelAlign={"right"}
                                 initialValues={{ remember: true }}
                                 autoComplete="off"
                             >
-                                <FormItem label={"Window: "} className={'w-1/2 m-auto'}>
+                                <FormItem label={"Window: "} className={'w-1/2 m-auto mb-3'}>
                                     <Select onChange={handleWindowChange} fieldNames={windowFields} options={windows}></Select>
                                 </FormItem>
-                                <FormItem label={"Templates: "} className={'w-1/2 m-auto'}>
+
+                                <FormItem label={"Templates: "} className={'w-1/2 m-auto mb-3'}>
                                     <Select onChange={handleTemplateChange} fieldNames={templateFields} options={templates}></Select>
                                 </FormItem>
-                                <FormItem layout={"horizontal"}>
-                                    <Button className="btn" onClick={() => handleListen()}> {listen ? 'Stop': 'Listen'} </Button>
-                                    <Button className="btn" onClick={() => handleRun()}> Run </Button>
-                                    <Button onClick={() => setIsModalOpen(!isModalOpen)}> New </Button>
+                                <FormItem>
+                                    <div className={' m-auto'}>
+                                        <Button className="btn ml-10" onClick={() => handleListen()}> {listen ? 'Stop': 'Listen'} </Button>
+                                        <Button className="btn ml-10" onClick={() => handleRun()}> Run </Button>
+                                        <Button className={"btn ml-10"} onClick={() => setIsModalOpen(!isModalOpen)}> New </Button>
+                                    </div>
                                 </FormItem>
                             </Form>
 

@@ -4,13 +4,14 @@ import './App.css';
 import {Button, Flex, Form, Image, Input, Layout, Modal, notification, Select} from "antd";
 import {OnListen, Run} from "../wailsjs/go/auto/AutoRecord";
 import {ChangeCurrentTemplate, GetAll, CreateTemplate} from "../wailsjs/go/template/Template";
+import {ChangeCurrentWindow, GetWindows} from "../wailsjs/go/window/Window";
+
 import {template, window as win} from "../wailsjs/go/models";
+import Template = template.Template;
+import Window = win.Window
 
 import FormItem from "antd/es/form/FormItem";
 import {Content, Footer} from "antd/es/layout/layout";
-import Template = template.Template;
-import Window = win.Window
-import {GetWindows} from "../wailsjs/go/window/Window";
 
 
 
@@ -101,7 +102,8 @@ function App() {
     }
 
     const handleWindowChange = (value:string) => {
-        console.log(value)
+        const item: win.Window | any = windows.find((item: win.Window | any) => item['Pid'] === value)
+        ChangeCurrentWindow(item)
     }
 
     const layoutStyle = {

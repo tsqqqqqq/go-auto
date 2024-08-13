@@ -12,8 +12,18 @@ type Window struct {
 	HWND  int
 }
 
+var CurrentWindow *Window
+
 func NewWindow() *Window {
 	return &Window{}
+}
+
+func (w *Window) ChangeCurrentWindow(current Window) {
+	CurrentWindow = &Window{
+		Pid:   current.Pid,
+		Title: current.Title,
+		HWND:  current.HWND,
+	}
 }
 
 func (w *Window) GetWindows() []*Window {

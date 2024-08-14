@@ -1,6 +1,7 @@
 package auto
 
 import (
+	"auto-record/app/event"
 	"auto-record/app/template"
 	"auto-record/config"
 	"fmt"
@@ -38,7 +39,6 @@ func eventOutput(evChan chan hook.Event) {
 	var lastTime *time.Time
 	for ev := range evChan {
 		input := strings.ReplaceAll(ev.String(), ev.When.String(), "")
-		fmt.Println(input)
 		input = fmt.Sprintf("[%v] %v \r\n", ev.When, input)
 		if lastTime == nil {
 			lastTime = TimeFormat(input)
@@ -56,6 +56,7 @@ func eventOutput(evChan chan hook.Event) {
 			lastTime = currentTime
 		} else {
 			// 管道输出到文件中
+			event.EventChan <- input
 			_, err := f.Write([]byte(input))
 			if err != nil {
 				panic(err)

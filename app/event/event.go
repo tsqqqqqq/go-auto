@@ -11,8 +11,19 @@ import (
 	"time"
 )
 
+type Event struct {
+	Kind string `json:"kind"`
+	Time *time.Time
+}
+
+var EventChan chan string
+
+func init() {
+	EventChan = make(chan string, 5)
+}
+
 type MouseMoveEvent struct {
-	Kind      string        `json:"Kind"`
+	*Event
 	Button    string        `json:"Button"`
 	X         int           `json:"X,string"`
 	Y         int           `json:"Y,string"`
@@ -31,7 +42,8 @@ const (
 )
 
 func NewMouseMoveEvent(text string) *MouseMoveEvent {
-	input := strings.Split(text, "- Event: ")[1]
+	textArr := strings.Split(text, "- Event: ")
+	input := textArr[1]
 	mObj := new(MouseMoveEvent)
 	if strings.Contains(input, MOUSEAWAIT) {
 		awaitMaps := make(map[string]string)
@@ -40,6 +52,7 @@ func NewMouseMoveEvent(text string) *MouseMoveEvent {
 			fmt.Println("Error:", err)
 		}
 		mObj.Kind = awaitMaps["Kind"]
+
 		durationStr := awaitMaps["Sleep"]
 		duration, err := time.ParseDuration(durationStr)
 		if err != nil {
@@ -59,8 +72,9 @@ func NewMouseMoveEvent(text string) *MouseMoveEvent {
 }
 
 func NewKeyboardEvent(text string) *KeyboardEvent {
-	input := strings.Split(text, "- Event: ")[1]
 	kObj := new(KeyboardEvent)
+	textArr := strings.Split(text, "- Event: ")
+	input := textArr[1]
 	re := regexp.MustCompile(`(\b\w+\b): (\w+)`)
 	result := re.ReplaceAllString(input, `"$1": "$2"`)
 	err := json.Unmarshal([]byte(result), kObj)
@@ -132,7 +146,7 @@ func getDir(rotation uint) string {
 }
 
 type KeyboardEvent struct {
-	Kind    string `json:"Kind"`
+	*Event
 	Keycode uint16 `json:"keycode"`
 	RawCode uint16 `json:"Rawcode,string"`
 	KeyChar rune   `json:"Keychar,string"`

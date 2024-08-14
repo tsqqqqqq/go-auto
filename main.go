@@ -2,6 +2,8 @@ package main
 
 import (
 	"auto-record/app/auto"
+	"auto-record/app/capture"
+	"auto-record/app/event"
 	template2 "auto-record/app/template"
 	window2 "auto-record/app/window"
 	"auto-record/config"
@@ -59,6 +61,8 @@ func appInit() {
 	window = window2.NewWindow()
 
 	go record.Listen(record.IsListen)
+	go capture.WindowCapture(event.EventChan)
+
 	recordFile := config.Settings.FilePath.Record
 	fmt.Println(recordFile)
 	if err := os.Mkdir(recordFile, os.ModePerm); os.IsNotExist(err) {

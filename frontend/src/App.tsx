@@ -140,7 +140,7 @@ function App() {
                                 autoComplete="off"
                             >
                                 <FormItem label={"Window: "} className={'w-1/2 m-auto mb-3'}>
-                                    <Select onChange={handleWindowChange} fieldNames={windowFields} options={windows}></Select>
+                                    <Select onChange={handleWindowChange} fieldNames={windowFields} options={windows} onFocus={initWindows}></Select>
                                 </FormItem>
 
                                 <FormItem label={"Templates: "} className={'w-1/2 m-auto mb-3'}>

@@ -55,12 +55,12 @@ func eventOutput(evChan chan hook.Event) {
 			}
 			lastTime = currentTime
 		} else {
-			// 管道输出到文件中
-			event.EventChan <- input
 			_, err := f.Write([]byte(input))
 			if err != nil {
 				panic(err)
 			}
+			// 管道输出到文件中
+			event.EventChan <- input
 		}
 
 	}

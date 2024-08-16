@@ -23,8 +23,9 @@ func WindowCapture(input chan string) {
 		win := window.CurrentWindow
 		x, y, w, h := robotgo.GetBounds(win.Pid)
 		img := robotgo.CaptureImg(x, y, w, h)
+		// fiXme 这里有大问题 要修复一下
 		if err := robotgo.Save(img, imgFile); err != nil {
-			fmt.Println(err)
+			fmt.Println("==========>", err)
 		}
 		CaptureCount++
 		//x, y, w, h := robotgo.GetDisplayBounds(mainid)

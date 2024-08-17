@@ -12,7 +12,7 @@ import (
 // 每当有一个键盘鼠标得输入事件的时候， 按照时间戳截图一张当前窗口句柄。。。
 var CaptureCount int = 0
 
-const ext = "Png"
+const ext = "png"
 
 // WindowCapture
 func WindowCapture(input chan string) {
@@ -21,9 +21,9 @@ func WindowCapture(input chan string) {
 		captureName := fmt.Sprintf("capture_%d.%s", CaptureCount, ext)
 		imgFile := filepath.Join(config.Settings.FilePath.Record, template.CurrentTemplate, captureName)
 		win := window.CurrentWindow
+		robotgo.SetActive(robotgo.GetHandPid(win.Pid))
 		x, y, w, h := robotgo.GetBounds(win.Pid)
 		img := robotgo.CaptureImg(x, y, w, h)
-		// fiXme 这里有大问题 要修复一下
 		if err := robotgo.Save(img, imgFile); err != nil {
 			fmt.Println("==========>", err)
 		}

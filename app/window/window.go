@@ -9,7 +9,7 @@ import (
 type Window struct {
 	Pid   int
 	Title string
-	HWND  int
+	HWND  uintptr
 }
 
 var CurrentWindow *Window
@@ -47,7 +47,7 @@ func (w *Window) GetWindows() []*Window {
 		wins = append(wins, &Window{
 			Pid:   pid,
 			Title: title,
-			HWND:  hwnd,
+			HWND:  uintptr(hwnd),
 		})
 	}
 	return wins

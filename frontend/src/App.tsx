@@ -1,18 +1,20 @@
-import {useEffect, useState} from 'react';
+import {SetStateAction, useEffect, useState} from 'react';
 import logo from './assets/images/logo-universal.png';
 import './App.css';
 import {Button, Flex, Form, Image, Input, Layout, Modal, notification, Select} from "antd";
 import {OnListen, Run} from "../wailsjs/go/auto/AutoRecord";
 import {ChangeCurrentTemplate, GetAll, CreateTemplate} from "../wailsjs/go/template/Template";
+// @ts-ignore
 import {ChangeCurrentWindow, GetWindows} from "../wailsjs/go/window/Window";
 
+// @ts-ignore
 import {template, window as win} from "../wailsjs/go/models";
 import Template = template.Template;
 import Window = win.Window
 
 import FormItem from "antd/es/form/FormItem";
 import {Content, Footer} from "antd/es/layout/layout";
-
+import {EventsOn} from "../wailsjs/runtime";
 
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
@@ -54,7 +56,7 @@ function App() {
     const updateResultText = (result: string) => setResultText(result);
 
     const initWindows = () => {
-        GetWindows().then((res) => {
+        GetWindows().then((res: SetStateAction<Window[]>) => {
             setWindows(res)
         })
     }
@@ -68,6 +70,7 @@ function App() {
     useEffect(() => {
         initWindows()
         initTemplates()
+        eventTest()
     }, [])
 
     useEffect(() => {
@@ -118,6 +121,16 @@ function App() {
         minHeight: '50%',
         color: '#fff',
     };
+
+    const eventTest = () => {
+        try {
+            EventsOn('test', (count: any) => {
+                console.log(count)
+            })
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 
 

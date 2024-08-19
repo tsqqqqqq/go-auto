@@ -2,7 +2,7 @@ package main
 
 import (
 	"auto-record/app/auto"
-	"auto-record/app/capture"
+	capture2 "auto-record/app/capture"
 	"auto-record/app/event"
 	template2 "auto-record/app/template"
 	window2 "auto-record/app/window"
@@ -49,7 +49,6 @@ func main() {
 			window,
 		},
 	})
-
 	if err != nil {
 		println("Error:", err.Error())
 	}
@@ -61,7 +60,7 @@ func appInit() {
 	window = window2.NewWindow()
 
 	go record.Listen(record.IsListen)
-	go capture.WindowCapture(event.EventChan)
+	go capture2.WindowCapture(event.EventChan)
 
 	recordFile := config.Settings.FilePath.Record
 	fmt.Println(recordFile)

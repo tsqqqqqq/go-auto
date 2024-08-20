@@ -40,6 +40,7 @@ func WindowCapture(input chan string) {
 	}
 }
 
+// TestEvent TODO 把这里删了 820在黑神话 偷懒一天
 func (c *Capture) TestEvent() {
 	fmt.Println("runtime test")
 	count := 0

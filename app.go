@@ -32,5 +32,5 @@ func eventInit(app *App) {
 	// TODO 新增一个events事件，但是这里的写法有点太没结构了 要改
 	capture := capture2.NewCapture(app.ctx)
 
-	go capture.TestEvent()
+	go capture.CaptureEvent(capture2.ImageChan)
 }

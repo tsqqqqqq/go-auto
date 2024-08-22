@@ -124,7 +124,7 @@ function App() {
 
     const eventTest = () => {
         try {
-            EventsOn('test', (count: any) => {
+            EventsOn('capture', (count: any) => {
                 console.log(count)
             })
         } catch (err) {

@@ -50,6 +50,6 @@ func WindowCapture(input chan string) {
 
 func (c *Capture) CaptureEvent(input chan image.Image) {
 	for img := range input {
-		runtime.EventsEmit(c.ctx, "test", img)
+		runtime.EventsEmit(c.ctx, "capture", img)
 	}
 }

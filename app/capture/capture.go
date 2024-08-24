@@ -48,7 +48,7 @@ func WindowCapture(input chan string) {
 	}
 }
 
-// 又逃课一天
+// 又逃课一天 再逃课一次
 func (c *Capture) CaptureEvent(input chan image.Image) {
 	for img := range input {
 		runtime.EventsEmit(c.ctx, "capture", img)

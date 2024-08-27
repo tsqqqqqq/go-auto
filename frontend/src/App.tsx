@@ -35,6 +35,8 @@ function App() {
 
     const [api, contextHolder] = notification.useNotification();
 
+    const [windowSource, setWindowSource] = useState<string | null>(null)
+
     const openNotificationWithIcon = (type: NotificationType, title: string, text: string) => {
         api[type]({
             message: title,
@@ -98,13 +100,13 @@ function App() {
         })
     }
 
-    const handleTemplateChange = (value:string) => {
+    const handleTemplateChange = (value: string) => {
         ChangeCurrentTemplate(value).then(() => {
             setSelectedTemplate(value)
         })
     }
 
-    const handleWindowChange = (value:string) => {
+    const handleWindowChange = (value: string) => {
         const item: win.Window | any = windows.find((item: win.Window | any) => item['Pid'] === value)
         ChangeCurrentWindow(item)
     }
@@ -124,24 +126,24 @@ function App() {
 
     const eventTest = () => {
         try {
-            EventsOn('capture', (count: any) => {
-                console.log(count)
+            EventsOn('capture', (source: any) => {
+                setWindowSource(source)
             })
         } catch (err) {
             console.log(err)
         }
     }
 
+    const show = windowSource ? <img src={windowSource} alt='window'/> : <img src={logo} id="logo" alt="logo"/>
 
 
-    return (
-        <>
-            {contextHolder}
+return (
+    <>
+        {contextHolder}
             <Flex className='justify-center'>
                 <Layout style={layoutStyle} className='shadow-2xl h-full min-h-full mt-10'>
                     <Content style={contentStyle} className=''>
-                        <img src={logo} id="logo" alt="logo"/>
-
+                        {show}
                     </Content>
                     <Footer className={"w-full"}>
                             <Form

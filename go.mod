@@ -3,9 +3,13 @@ module auto-record
 go 1.22.0
 
 require (
+	github.com/go-ole/go-ole v1.3.0
 	github.com/go-vgo/robotgo v0.110.2
+	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
+	github.com/pkg/errors v0.9.1
 	github.com/robotn/gohook v0.41.0
 	github.com/spf13/viper v1.19.0
+	github.com/tsqqqqqq/GoRecord v0.0.0-20240910145936-28bfb890ebf8
 	github.com/wailsapp/wails/v2 v2.9.1
 	golang.org/x/text v0.18.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -16,7 +20,6 @@ require (
 	github.com/dblohm7/wingoes v0.0.0-20231019175336-f6e33aa7cc34 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gen2brain/shm v0.0.0-20230802011745-f2460f5984f7 // indirect
-	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/google/uuid v1.4.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
@@ -30,16 +33,15 @@ require (
 	github.com/leaanthony/slicer v1.6.0 // indirect
 	github.com/leaanthony/u v1.1.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20230326075908-cb1d2100619a // indirect
-	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/moutend/go-wca v0.3.0 // indirect
 	github.com/otiai10/gosseract v2.2.1+incompatible // indirect
 	github.com/otiai10/mint v1.6.3 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/robotn/xgb v0.0.0-20190912153532-2cb92d044934 // indirect
@@ -58,7 +60,6 @@ require (
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
-	github.com/tsqqqqqq/GoRecord v0.0.0-20240910145936-28bfb890ebf8 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/vcaesar/gops v0.40.0 // indirect

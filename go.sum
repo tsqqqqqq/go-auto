@@ -141,8 +141,8 @@ github.com/tklauser/numcpus v0.6.1 h1:ng9scYS7az0Bk4OZLvrNXNSAO2Pxr1XXRAPyjhIx+F
 github.com/tklauser/numcpus v0.6.1/go.mod h1:1XfjsgE2zo8GVw7POkMbHENHzVg3GzmoZ9fESEdAacY=
 github.com/tkrajina/go-reflector v0.5.6 h1:hKQ0gyocG7vgMD2M3dRlYN6WBBOmdoOzJ6njQSepKdE=
 github.com/tkrajina/go-reflector v0.5.6/go.mod h1:ECbqLgccecY5kPmPmXg1MrHW585yMcDkVl6IvJe64T4=
-github.com/tsqqqqqq/GoRecord v0.0.0-20240910145936-28bfb890ebf8 h1:zdmWLehQRBbq2kAk/L6wlh84en8NnrRfQE9gaTofnM8=
-github.com/tsqqqqqq/GoRecord v0.0.0-20240910145936-28bfb890ebf8/go.mod h1:L04xxpoBU7uYH9xTcPP2fewYrwIhuCn2zQGI5LC8lZM=
+github.com/tsqqqqqq/GoRecord v0.0.0-20240912135625-23448c09341d h1:EZj4JKmIIk0Vx1BHCSQ9m0uP1Tl1IPHRtFrqEX8NZTg=
+github.com/tsqqqqqq/GoRecord v0.0.0-20240912135625-23448c09341d/go.mod h1:L04xxpoBU7uYH9xTcPP2fewYrwIhuCn2zQGI5LC8lZM=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasttemplate v1.2.1/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=

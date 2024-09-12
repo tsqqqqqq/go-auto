@@ -3,13 +3,11 @@ module auto-record
 go 1.22.0
 
 require (
-	github.com/go-ole/go-ole v1.3.0
 	github.com/go-vgo/robotgo v0.110.2
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
-	github.com/pkg/errors v0.9.1
 	github.com/robotn/gohook v0.41.0
 	github.com/spf13/viper v1.19.0
-	github.com/tsqqqqqq/GoRecord v0.0.0-20240910145936-28bfb890ebf8
+	github.com/tsqqqqqq/GoRecord v0.0.0-20240912135625-23448c09341d
 	github.com/wailsapp/wails/v2 v2.9.1
 	golang.org/x/text v0.18.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -20,6 +18,7 @@ require (
 	github.com/dblohm7/wingoes v0.0.0-20231019175336-f6e33aa7cc34 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gen2brain/shm v0.0.0-20230802011745-f2460f5984f7 // indirect
+	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/google/uuid v1.4.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
@@ -42,6 +41,7 @@ require (
 	github.com/otiai10/mint v1.6.3 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/robotn/xgb v0.0.0-20190912153532-2cb92d044934 // indirect
